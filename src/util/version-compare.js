@@ -1,7 +1,7 @@
 function getVesionObject(versionString){
-    var majorReg = /\d+/;
-    var minorReg = /\d+\.\d+/;
-    var patchReg = /\d+\.\d+\.\d+/;
+    var majorReg = /\d+/,
+    minorReg = /\d+\.\d+/,
+    patchReg = /\d+\.\d+\.\d+/;
     
     var major=null,
     minor=null,
@@ -25,6 +25,52 @@ function getVesionObject(versionString){
     }
 }
 
-function getComparator(){
-
+function getComparator(versionString){
+    var compareReg = /^(<|>)=?/;
+    var comparator;
+    
+    if(compareReg.test(versionString)){
+        comparator = versionString.match(compareReg)[0];
+    }else{
+        comparator = '=';
+    }
+    return comparator; 
 }
+
+function compare(numOne, numTwo, comparator){
+    switch (comparator){
+        case '<':
+            return (numOne < numTwo);
+        break;
+        
+        case '<=':
+            return (numOne <= numTwo);
+        break;
+        
+        case '>':
+            return (numOne > numTwo);
+        break;
+        
+        case '>=':
+            return (numOne >= numTwo);
+        break;
+        
+        case '=':
+            return (numOne == numTwo);
+        break;
+    }
+}
+    
+function satisfy(versionOutput, versionSatisfy, comparator){
+       
+}
+
+module.exports = function(versionOutput, versionSatisfy){
+    var theVersionOutput = getVersionObject(versionOutput);
+    var theVersionSatisfy = getVersionObject(versionSatisfy);
+    var comparator = getComparator(versionSatisfy);
+    
+    return satisfy(theVersionOutput, theVersionSatisfy, comparator);
+}
+
+

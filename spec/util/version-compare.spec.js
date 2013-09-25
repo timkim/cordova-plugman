@@ -142,35 +142,52 @@ describe('version-compare', function(){
             expect(version_compare('0.0.0','>0.0.1')).toBe(false);            
             expect(version_compare('0.0.0','>0.0.0')).toBe(false); 
             expect(version_compare('1.0.0','>1.0.1')).toBe(false);  
-            expect(version_compare('1.1.0','>1.0.1')).toBe(false); 
-            expect(version_compare('1.0.1','>1.1.0')).toBe(true); 
-            expect(version_compare('1.1.1','>1.0.0')).toBe(false); 
-            expect(version_compare('1.0.0','>0.1.0')).toBe(false);
-            expect(version_compare('1.0.1','>0.1.0')).toBe(false);
-            expect(version_compare('1.1.0','>0.2.0')).toBe(false); 
-            expect(version_compare('1.0.0','>0.0.1')).toBe(false);            
-            expect(version_compare('1.0.0','>0.0.0')).toBe(false);             
+            expect(version_compare('1.1.0','>1.0.1')).toBe(true); 
+            expect(version_compare('1.0.1','>1.1.0')).toBe(false); 
+            expect(version_compare('1.1.1','>1.0.0')).toBe(true); 
+            expect(version_compare('1.0.0','>0.1.0')).toBe(true);
+            expect(version_compare('1.0.1','>0.1.0')).toBe(true);
+            expect(version_compare('1.1.0','>0.2.0')).toBe(true); 
+            expect(version_compare('1.0.0','>0.0.1')).toBe(true);            
+            expect(version_compare('1.0.0','>0.0.0')).toBe(true);             
         });
     });
     describe('>=', function() {
-       it('should work with major only', function(){
-            expect(version_compare('17','>=18')).toBe(false);
-       });
-       it('should work with major and minor', function(){
-            expect(version_compare('17.1','>=18.0')).toBe(false);
-       });
-       it('should work with major, minor and patch', function(){
-            expect(version_compare('17.1.2','>=18.0.1')).toBe(false);
-       });
-       it('should work with major only', function(){
-            expect(version_compare('19','>=18')).toBe(true);
-       });
-       it('should work with major and minor', function(){
-            expect(version_compare('19.1','>=18.2')).toBe(true);
-       });
-       it('should work with major, minor and patch', function(){
-            expect(version_compare('19.1.2','>=18.2.3')).toBe(true);
-       });
+        it('should satisfy', function(){
+            expect(version_compare('0','>=1')).toBe(false);
+            expect(version_compare('0','>=0')).toBe(true);
+            expect(version_compare('1','>=0')).toBe(true);
+            
+            expect(version_compare('0.0','>=1.0')).toBe(false);
+            expect(version_compare('0.1','>=1.0')).toBe(false);
+            expect(version_compare('0.1','>=0.1')).toBe(true);
+            expect(version_compare('0.0','>=0.1')).toBe(false);
+            expect(version_compare('0.0','>=0.0')).toBe(true);
+            expect(version_compare('1.0','>=1.0')).toBe(true);
+            expect(version_compare('1.1','>=1.0')).toBe(true);
+            expect(version_compare('1.1','>=0.1')).toBe(true);
+            expect(version_compare('1.0','>=0.1')).toBe(true);
+            expect(version_compare('1.0','>=0.0')).toBe(true);
+                       
+            expect(version_compare('0.0.0','>=1.0.0')).toBe(false);  
+            expect(version_compare('0.1.0','>=1.0.0')).toBe(false); 
+            expect(version_compare('0.0.1','>=1.0.0')).toBe(false); 
+            expect(version_compare('0.1.1','>=1.0.0')).toBe(false); 
+            expect(version_compare('0.0.0','>=0.1.0')).toBe(false);
+            expect(version_compare('0.0.1','>=0.1.0')).toBe(false);
+            expect(version_compare('0.1.0','>=0.2.0')).toBe(false); 
+            expect(version_compare('0.0.0','>=0.0.1')).toBe(false);            
+            expect(version_compare('0.0.0','>=0.0.0')).toBe(true); 
+            expect(version_compare('1.0.0','>=1.0.1')).toBe(false);  
+            expect(version_compare('1.1.0','>=1.0.1')).toBe(true); 
+            expect(version_compare('1.0.1','>=1.1.0')).toBe(false); 
+            expect(version_compare('1.1.1','>=1.0.0')).toBe(true); 
+            expect(version_compare('1.0.0','>=0.1.0')).toBe(true);
+            expect(version_compare('1.0.1','>=0.1.0')).toBe(true);
+            expect(version_compare('1.1.0','>=0.2.0')).toBe(true); 
+            expect(version_compare('1.0.0','>=0.0.1')).toBe(true);            
+            expect(version_compare('1.0.0','>=0.0.0')).toBe(true);             
+        });
     });
 
 });

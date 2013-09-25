@@ -102,11 +102,24 @@ function satisfy(versionOut, versionRange, comparator){
         break;
         
         case 'toMinor':
-            return true;
+            if(compare(versionOut.major, versionRange.major, '=')){
+                return compare(versionOut.minor, versionRange.minor, comparator);
+            }else{
+                return compare(versionOut.major, versionRange.major, comparator);
+            }
+            
         break;
         
         case 'toPatch':
-            return true;
+            if(compare(versionOut.major, versionRange.major, '=')){
+                if(compare(versionOut.minor, versionRange.minor, '=')){
+                    return compare(versionOut.patch, versionRange.patch, comparator);
+                }else{
+                    return compare(versionOut.minor, versionRange.minor, comparator);
+                }
+            }else{
+                return compare(versionOut.major, versionRange.major, comparator);
+            }
         break;
     }
 }

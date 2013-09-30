@@ -9,8 +9,9 @@ function getVersionObject(versionString){
     
     if(majorReg.test(versionString)){
         major = parseInt(versionString.match(majorReg)[0]);
+    }else{
+        throw new Error('No version string detected. Unable to compare to versions. Please check the output from your version script and the engine tag in your plugin.xml.');
     }
-    // make sure error out if major is null
     
     if(minorReg.test(versionString)){
         minor = parseInt(versionString.match(minorReg)[0].split('.')[1]);
@@ -68,20 +69,18 @@ function checkVersionFormat(versionOut, versionRange){
     
     if(versionOut.major!=null && versionRange.major!=null){
         majorOk = true;
-    }else{
-        // error
     }
     
     if(versionOut.minor!=null && versionRange.minor!=null){
         minorOk = true;
-    }else{
-        // error
+    }else if((versionOut.minor!=null && versionRange.minor==null) || (versionOut.minor==null && versionRange.minor!=null)){
+        throw new Error('Different version string format detected. Unable to compare to versions. Please check the output from your version script and the engine tag in your plugin.xml.');
     }
     
     if(versionOut.patch!=null && versionRange.patch!=null){
         patchOk = true;
-    }else{
-        // error
+    }else if((versionOut.patch!=null && versionRange.patch==null) || (versionOut.patch==null && versionRange.patch!=null)){
+        throw new Error('Different version string format detected. Unable to compare to versions. Please check the output from your version script and the engine tag in your plugin.xml.');
     }
     
     if(majorOk && minorOk && patchOk){
@@ -124,12 +123,14 @@ function satisfy(versionOut, versionRange, comparator){
     }
 }
 
-module.exports = function(versionOut, versionRange){
-    var theVersionOut = getVersionObject(versionOut);
-    var theVersionRange = getVersionObject(versionRange);
-    var comparator = getComparator(versionRange);
-    
-    return satisfy(theVersionOut, theVersionRange, comparator);
+module.exports = {
+    satisfies: function(versionOut, versionRange){
+        var theVersionOut = getVersionObject(versionOut);
+        var theVersionRange = getVersionObject(versionRange);
+        var comparator = getComparator(versionRange);
+
+        return satisfy(theVersionOut, theVersionRange, comparator);
+    }
 }
 
 
